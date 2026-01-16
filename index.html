@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Geometry Dash Ultimate</title>
-  <link rel="stylesheet" href="style.css?v=10">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -17,6 +17,8 @@
 <h1>GEOMETRY DASH</h1>
 
 <div class="controls">
+  <select id="levelSelect"></select>
+
   <select id="modelSelect">
     <option value="cube">Cube</option>
     <option value="ball">Ball</option>
@@ -27,13 +29,12 @@
   <input type="color" id="colorPicker" value="#00ffff">
 
   <button onclick="startGame()">PLAY</button>
-  <button onclick="forceUpdate()">UPDATE</button>
 </div>
 
 <canvas id="game" width="900" height="300"></canvas>
 
 <div id="message"></div>
 
-<script src="script.js?v=10"></script>
+<script src="script.js"></script>
 </body>
 </html>
