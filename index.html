@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Geometry Dash Modern</title>
-  <link rel="stylesheet" href="style.css?v=6">
+  <title>Geometry Dash Ultimate</title>
+  <link rel="stylesheet" href="style.css?v=10">
 </head>
 <body>
 
@@ -20,16 +20,20 @@
   <select id="modelSelect">
     <option value="cube">Cube</option>
     <option value="ball">Ball</option>
+    <option value="ship">Ship</option>
+    <option value="wave">Wave</option>
   </select>
 
   <input type="color" id="colorPicker" value="#00ffff">
+
   <button onclick="startGame()">PLAY</button>
+  <button onclick="forceUpdate()">UPDATE</button>
 </div>
 
 <canvas id="game" width="900" height="300"></canvas>
 
 <div id="message"></div>
 
-<script src="script.js?v=6"></script>
+<script src="script.js?v=10"></script>
 </body>
 </html>
