@@ -1,78 +1,53 @@
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
-let playerColor = "#00ffff";
-document.getElementById("colorPicker").oninput = e => playerColor = e.target.value;
-
 const gravity = 0.6;
-const jumpPower = -11;
-let levelIndex = 0;
+const jumpPower = -12;
 let running = false;
+let levelIndex = 0;
 let distance = 0;
 
+let playerColor = "#00ffff";
+let model = "cube";
+
+document.getElementById("colorPicker").oninput = e => playerColor = e.target.value;
+document.getElementById("modelSelect").onchange = e => model = e.target.value;
+
 const player = {
-  x: 80,
+  x: 100,
   y: 200,
   size: 30,
   velY: 0,
-  grounded: false
+  grounded: false,
+  rotation: 0,
+  scaleY: 1
 };
 
-const levels = [
-  {
-    speed: 4,
-    length: 2000,
-    obstacles: [
-      { x: 400, type: "spike" },
-      { x: 600, type: "block" },
-      { x: 800, type: "spike" },
-      { x: 1100, type: "platform", y: 160 }
-    ]
-  },
-  {
-    speed: 6,
-    length: 2600,
-    obstacles: [
-      { x: 350, type: "spike" },
-      { x: 550, type: "block" },
-      { x: 700, type: "platform", y: 140 },
-      { x: 900, type: "spike" },
-      { x: 1200, type: "block" }
-    ]
-  }
-];
-
-let obstacles = [];
-
-function loadLevel() {
-  distance = 0;
-  obstacles = JSON.parse(JSON.stringify(levels[levelIndex].obstacles));
-  document.getElementById("levelText").innerText = "LEVEL " + (levelIndex + 1);
-  showMessage("GET READY ⚡");
-}
+const level = {
+  speed: 5,
+  length: 2200,
+  obstacles: [{ x: 500 }, { x: 800 }, { x: 1200 }]
+};
 
 function startGame() {
+  distance = 0;
   player.y = 200;
   player.velY = 0;
   running = true;
-  loadLevel();
-}
-
-function restart() {
-  running = false;
-  startGame();
+  showMessage("READY");
 }
 
 function showMessage(text) {
-  const msg = document.getElementById("message");
-  msg.innerText = text;
-  setTimeout(() => msg.innerText = "", 1500);
+  const m = document.getElementById("message");
+  m.innerText = text;
+  setTimeout(() => m.innerText = "", 1200);
 }
 
 function jump() {
   if (player.grounded) {
     player.velY = jumpPower;
     player.grounded = false;
+    player.scaleY = 0.8; // squash
   }
 }
 
@@ -82,80 +57,55 @@ canvas.addEventListener("mousedown", jump);
 function update() {
   if (!running) return;
 
-  distance += levels[levelIndex].speed;
+  distance += level.speed;
   document.getElementById("progress").style.width =
-    (distance / levels[levelIndex].length * 100) + "%";
+    (distance / level.length * 100) + "%";
 
-  // physics
   player.velY += gravity;
   player.y += player.velY;
 
+  // rotation while jumping
+  if (!player.grounded) player.rotation += 0.15;
+
+  // landing
   if (player.y + player.size >= canvas.height - 20) {
     player.y = canvas.height - 20 - player.size;
     player.velY = 0;
     player.grounded = true;
+    player.scaleY = 1.2; // stretch
   }
 
-  obstacles.forEach(o => {
-    o.x -= levels[levelIndex].speed;
-
-    if (o.type !== "platform") {
-      if (
-        player.x < o.x + 30 &&
-        player.x + player.size > o.x &&
-        player.y + player.size > canvas.height - 40
-      ) {
-        crash();
-      }
-    }
-  });
-
-  if (distance >= levels[levelIndex].length) {
-    running = false;
-    levelIndex = (levelIndex + 1) % levels.length;
-    showMessage("LEVEL COMPLETE 🏆");
-  }
+  player.scaleY += (1 - player.scaleY) * 0.2;
 }
 
-function crash() {
-  running = false;
-  showMessage("💥 CRASHED!");
+function drawPlayer() {
+  ctx.save();
+  ctx.translate(player.x + player.size / 2, player.y + player.size / 2);
+  ctx.rotate(player.rotation);
+  ctx.scale(1, player.scaleY);
+  ctx.fillStyle = playerColor;
+
+  if (model === "cube") {
+    ctx.fillRect(-15, -15, 30, 30);
+  }
+
+  if (model === "ball") {
+    ctx.beginPath();
+    ctx.arc(0, 0, 15, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.restore();
 }
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // ground
-  ctx.fillStyle = "#0ff";
+  ctx.fillStyle = "#1f2937";
   ctx.fillRect(0, canvas.height - 20, canvas.width, 20);
 
-  // player glow
-  ctx.shadowBlur = 20;
-  ctx.shadowColor = playerColor;
-  ctx.fillStyle = playerColor;
-  ctx.fillRect(player.x, player.y, player.size, player.size);
-  ctx.shadowBlur = 0;
-
-  obstacles.forEach(o => {
-    if (o.type === "spike") {
-      ctx.fillStyle = "red";
-      ctx.beginPath();
-      ctx.moveTo(o.x, canvas.height - 20);
-      ctx.lineTo(o.x + 15, canvas.height - 60);
-      ctx.lineTo(o.x + 30, canvas.height - 20);
-      ctx.fill();
-    }
-
-    if (o.type === "block") {
-      ctx.fillStyle = "purple";
-      ctx.fillRect(o.x, canvas.height - 50, 30, 30);
-    }
-
-    if (o.type === "platform") {
-      ctx.fillStyle = "lime";
-      ctx.fillRect(o.x, o.y, 60, 10);
-    }
-  });
+  drawPlayer();
 }
 
 function loop() {
@@ -165,4 +115,3 @@ function loop() {
 }
 
 loop();
-
