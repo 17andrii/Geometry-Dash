@@ -2,34 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Geometry Dash Neon</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Geometry Dash Modern</title>
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 
-<div id="hud">
-  <div id="levelText">LEVEL 1</div>
-  <div id="progressBar">
+<div class="top-ui">
+  <span id="levelText">LEVEL 1</span>
+  <div class="progress-bar">
     <div id="progress"></div>
   </div>
 </div>
 
-<h1>⚡ GEOMETRY DASH NEON ⚡</h1>
+<h1>GEOMETRY DASH</h1>
 
-<div id="controls">
-  <label>Player Color
-    <input type="color" id="colorPicker" value="#00ffff">
-  </label>
-  <button onclick="startGame()">▶ Start</button>
-  <button onclick="restart()">🔁 Restart</button>
+<div class="controls">
+  <select id="modelSelect">
+    <option value="cube">Cube</option>
+    <option value="ball">Ball</option>
+  </select>
+
+  <input type="color" id="colorPicker" value="#00ffff">
+  <button onclick="startGame()">PLAY</button>
 </div>
 
 <canvas id="game" width="900" height="300"></canvas>
 
 <div id="message"></div>
 
-<p>SPACE or CLICK to jump</p>
-
-<script src="script.js?v=2"></script>
+<script src="script.js?v=6"></script>
 </body>
 </html>
