@@ -2,7 +2,7 @@ body {
   margin: 0;
   background: #020617;
   color: #e5e7eb;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: system-ui, sans-serif;
   text-align: center;
 }
 
@@ -52,11 +52,12 @@ button {
 }
 
 canvas {
-  background: linear-gradient(#020617, #020617);
   border-radius: 12px;
+  background: black;
 }
 
 #message {
   margin-top: 8px;
-  opacity: 0.8;
+  opacity: 0.9;
 }
+
