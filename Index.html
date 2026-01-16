@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Geometry Dash Clone</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>⚡ Geometry Dash Clone ⚡</h1>
+
+<div id="ui">
+  <label>Player Color:
+    <input type="color" id="colorPicker" value="#00ffff">
+  </label>
+
+  <button onclick="startGame()">Start</button>
+  <button onclick="nextLevel()">Next Level</button>
+</div>
+
+<canvas id="game" width="900" height="300"></canvas>
+
+<p>Press <b>SPACE</b> or <b>CLICK</b> to jump</p>
+
+<script src="script.js"></script>
+</body>
+</html>
