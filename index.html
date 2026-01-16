@@ -2,25 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Geometry Dash Clone</title>
+  <title>Geometry Dash Neon</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>⚡ Geometry Dash Clone ⚡</h1>
+<div id="hud">
+  <div id="levelText">LEVEL 1</div>
+  <div id="progressBar">
+    <div id="progress"></div>
+  </div>
+</div>
 
-<div id="ui">
-  <label>Player Color:
+<h1>⚡ GEOMETRY DASH NEON ⚡</h1>
+
+<div id="controls">
+  <label>Player Color
     <input type="color" id="colorPicker" value="#00ffff">
   </label>
-
-  <button onclick="startGame()">Start</button>
-  <button onclick="nextLevel()">Next Level</button>
+  <button onclick="startGame()">▶ Start</button>
+  <button onclick="restart()">🔁 Restart</button>
 </div>
 
 <canvas id="game" width="900" height="300"></canvas>
 
-<p>Press <b>SPACE</b> or <b>CLICK</b> to jump</p>
+<div id="message"></div>
+
+<p>SPACE or CLICK to jump</p>
 
 <script src="script.js"></script>
 </body>
